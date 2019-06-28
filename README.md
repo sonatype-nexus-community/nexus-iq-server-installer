@@ -54,6 +54,8 @@ Notes/Todo
 
 * Debug yum transaction issue after uninstall.
 
+* Fix upgrading of daemon script (extra/daemon/nexus-iq-server) regarding version number in jar filename (`%config(noreplace)` vs `%config`).
+
 * Use `rpmlint` to validate the generated .rpm installer.
 
 * Use `lintian` to validate the generated .deb installer.
