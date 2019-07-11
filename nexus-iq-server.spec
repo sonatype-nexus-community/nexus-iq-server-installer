@@ -33,11 +33,12 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/opt/sonatype/iqserver
 rsync -v -a ${RPM_PACKAGE_NAME}-${RPM_PACKAGE_VERSION}/ %{buildroot}/opt/sonatype/iqserver
 
-mkdir -p %{buildroot}/opt/sonatype/sonatype-work/iqserver
+mkdir -p %{buildroot}/opt/sonatype/sonatype-work/iqserver/log
 #rsync -a ${RPM_PACKAGE_NAME}-${RPM_PACKAGE_VERSION}/sonatype-work/iqserver/ %{buildroot}/opt/sonatype/sonatype-work/iqserver
 
 #patch config
 perl -p -i -e 's/sonatypeWork: \.\/sonatype-work\/clm-server/sonatypeWork: \/opt\/sonatype\/sonatype-work\/iqserver/g' %{buildroot}/opt/sonatype/iqserver/config.yml
+perl -p -i -e 's/: \.\/log\//: \/opt\/sonatype\/sonatype-work\/iqserver\/log\//g' %{buildroot}/opt/sonatype/iqserver/config.yml
 perl -p -i -e 's/VERSION=replaceMeIQServerVersion/VERSION=%%JAR_VERSION%%/g' %{buildroot}/opt/sonatype/iqserver/extra/daemon/nexus-iq-server
 
 mkdir -p %{buildroot}/etc/init.d
@@ -95,7 +96,9 @@ fi
 /opt/sonatype/iqserver
 %dir %config(noreplace) /opt/sonatype/iqserver/extra
 %config(noreplace) /opt/sonatype/iqserver/config.yml
-%config(noreplace) /opt/sonatype/iqserver/extra/daemon/nexus-iq-server
+%config /opt/sonatype/iqserver/demo.bat
+%config /opt/sonatype/iqserver/demo.sh
+%config /opt/sonatype/iqserver/extra/daemon/nexus-iq-server
 %defattr(-,iqserver,iqserver)
 /opt/sonatype/sonatype-work/iqserver
 
