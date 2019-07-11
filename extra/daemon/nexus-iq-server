@@ -36,10 +36,10 @@ do_console()
 
 do_stop()
 {
-    pid=`ps aux | grep nexus-iq-server | grep -vE '(stop|grep)' | awk '{print $2}'`
-    #kill $pid
-    # TODO Figure out why kill interrupts rpm upgrade via signal. su seems to stop daemon and does not interrupt rpm
-    su -m $RUN_AS_USER -c "kill $pid"
+    # NOTE: Be sure the command to fine pid will not kill the installer process by mistake (rpm|deb)
+    #ps aux | grep nexus-iq-server | grep -vE '(stop|grep|rpm|deb)'
+    pid=`ps aux | grep nexus-iq-server | grep -vE '(stop|grep|rpm|deb)' | awk '{print $2}'`
+    kill $pid
     echo "Killed nexus-iq-server - PID $pid"
 }
 
