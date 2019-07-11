@@ -36,7 +36,7 @@ do_console()
 
 do_stop()
 {
-    # NOTE: Be sure the command to fine pid will not kill the installer process by mistake (rpm|deb)
+    # NOTE: Be sure the command to find pid will not kill the installer process by mistake (rpm|deb)
     ps aux | grep nexus-iq-server | grep -vE '(stop|grep|rpm|deb)'
     pid=`ps aux | grep nexus-iq-server | grep -vE '(stop|grep|rpm|deb)' | awk '{print $2}'`
     kill $pid
