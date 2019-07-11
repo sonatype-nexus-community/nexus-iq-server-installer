@@ -37,7 +37,9 @@ do_console()
 do_stop()
 {
     pid=`ps aux | grep nexus-iq-server | grep -vE '(stop|grep)' | awk '{print $2}'`
-    kill $pid
+    #kill $pid
+    # TODO Figure out why kill interrupts rpm upgrade via signal. su seems to stop daemon and does not interrupt rpm
+    su -m $RUN_AS_USER -c "kill $pid"
     echo "Killed nexus-iq-server - PID $pid"
 }
 
@@ -47,12 +49,16 @@ do_usage()
 }
 
 case $1 in
-console) do_console
-;;
-start) do_start
-;;
-stop) do_stop
-;;
-*) do_usage
-;;
+    console)
+        do_console
+        ;;
+    start)
+        do_start
+        ;;
+    stop)
+        do_stop
+        ;;
+    *)
+        do_usage
+        ;;
 esac
