@@ -5,8 +5,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 APP = nexus-iq-server
 
 # The app version (as bundled and published by Sonatype)
-VERSION ?= 1.65.0-01
-#VERSION ?= 1.66.0-01
+VERSION ?= 1.67.0-01
 
 # the name of the original bundle file
 BUNDLE_FILE := $(APP)-$(VERSION)-bundle.tar.gz
