@@ -3,6 +3,8 @@ About
 
 Package Nexus IQ Server as an RPM and DEB.
 
+[![CircleCI](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer.svg?style=svg)](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer)
+
 Overview
 --------
 
