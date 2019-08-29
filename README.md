@@ -12,7 +12,7 @@ You can specify the bundle version to download by setting the `VERSION` environm
 The RPM will be written to `./build`.
 
 The DEB is generated from the RPM using the [alien](https://wiki.debian.org/Alien) command in another docker container.
-This is why you will see a number of `elif` commands in the `%pre`, `%post`, and `%preun` sections of the [.spec](nexus-iq-server.spec) file,
+This is why you will see a number of `elif` commands in the `%pre`, `%post`, and `%preun` sections of the [.spec](rpm/nexus-iq-server.spec) file,
 to ensure the scriptlets work on both distributions. 
 The DEB will be written to `./build`. 
 
@@ -91,52 +91,25 @@ Looking to contribute, but need some help? There's a few ways to get information
       rpm -ivvh nexus-iq-server-1.65.0_01-1.el7.noarch.rpm 
       
   This will provide tons of information about what the installer is doing.
-
-## Archive
-
-The `archive` branch contains some prebuilt installer binaries. These are tracked using [git lfs](https://git-lfs.github.com)
-to ensure a clone of the project does not get crazy huge. Follow the steps below to add a new version to the archive
-branch:
-
-  1. Update the `Makefile` default VERSION value to the new version to be archived. e.g.
   
-         VERSION ?= 1.65.0-01
+* CI local debug - you can run a local ci build using the following:
+
+      circleci config process .circleci/config.yml > .circleci/local-config.yml  \
+          &&  circleci local execute --config .circleci/local-config.yml --job build
+  
+
+## Build Installers via CI
+
+  1. Update the version number in [version-to-build.txt](version-to-build.txt) to the new version to be built. e.g.
+  
+         1.65.0-01
          
      to:
      
-         VERSION ?= 1.66.0-01
+         1.66.0-01
 
-     Commit the updated `Makefile` to `master`.
+     Commit and push the updated [version-to-build.txt](version-to-build.txt) file to the `master` branch.
      
-  2. Build the new installers via:
-  
-         make docker-all
-         
-  3. Checkout and pull the `archive` branch, copy the new installers to the `archive` folder. 
-     
-     `git add` the new installers in the `archive` folder.
-     
-     Lock new installer archive files.
-     
-     (Optional) Sanity check that the new installers are showing in the lfs files list.
-     
-     Commit the changes and push. The push will take a long time.
+  2. After a new build has completed, click the `deploy_staging` or `deploy` workflow.
 
-         git checkout archive
-         git pull
-         
-         cp build/nexus-iq_server-1.66.0_01-1.el7.noarch.rpm archive/
-         cp build/nexus-iq_server_1.66.001-2_all.deb archive/
-         
-         git add archive/nexus-iq_server-1.66.0_01-1.el7.noarch.rpm
-         git add archive/nexus-iq_server_1.66.001-2_all.deb 
-         
-         git lfs lock archive/nexus-iq_server-1.66.0_01-1.el7.noarch.rpm
-         git lfs lock archive/nexus-iq_server_1.66.001-2_all.deb
-
-         git lfs ls-files
-         
-         git commit -m 'archive version 1.66.0_01'
-         git push
-
-  4. Checkout the `master` branch.
+   <!-- @todo Add 'deploy' workflow to deploy to production NXRM3 -->
