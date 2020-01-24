@@ -129,7 +129,7 @@ workflows:
     jobs:
       - read_published_release_version:
           ssh-fingerprints: "e5:5e:0b:2a:20:6c:68:d0:a2:2e:85:01:bd:bb:43:c9"
-          context: installer-deploy-staging
+          context: installer-read-published-release-version
 
   build_new_release_on_tag:
     jobs:
