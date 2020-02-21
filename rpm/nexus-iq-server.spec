@@ -3,6 +3,7 @@ Version:	%%VERSION%%
 Release:	%%RELEASE%%
 Summary:	Nexus IQ Server
 License:	Proprietary
+#Requires:       java-1.8.0-openjdk-headless or adoptopenjdk-8-hotspot
 Requires:       java-1.8.0-openjdk-headless
 URL:		https://www.sonatype.com
 Source0:	%%BUNDLE_FILE%%
@@ -44,6 +45,8 @@ perl -p -i -e 's/VERSION=replaceMeIQServerVersion/VERSION=%%JAR_VERSION%%/g' %{b
 
 mkdir -p %{buildroot}/etc/init.d
 ln -sf /opt/sonatype/iqserver/extra/daemon/nexus-iq-server %{buildroot}/etc/init.d/nexus-iq-server
+mkdir -p %{buildroot}/etc/systemd/system
+ln -sf /opt/sonatype/iqserver/extra/daemon/nexus-iq-server.service %{buildroot}/etc/systemd/system/nexus-iq-server.service
 
 %clean
 rm -rf %{buildroot}
@@ -59,47 +62,63 @@ getent passwd iqserver >/dev/null || \
 fi
 # stop the service before upgrading
 if [ $1 = 2 ]; then
-  /sbin/service nexus-iq-server stop
+  #/sbin/service nexus-iq-server stop
+  /usr/bin/systemctl stop nexus-iq-server.service
 elif [ "$1" = "upgrade" ]; then
-  /usr/sbin/service nexus-iq-server stop
+  #/usr/sbin/service nexus-iq-server stop
+  /bin/systemctl stop nexus-iq-server.service
 fi
 
 %post
 echo post $1
 # start the service upon first installation
 if [ $1 = 1 ]; then
-  /sbin/chkconfig --add nexus-iq-server
-  /sbin/service nexus-iq-server start
+  #/sbin/chkconfig --add nexus-iq-server
+  #/sbin/service nexus-iq-server start
+  /usr/bin/systemctl daemon-reload
+  /usr/bin/systemctl enable nexus-iq-server.service
+  /usr/bin/systemctl start nexus-iq-server.service
 elif [ "$1" = "configure" ]; then
-  update-rc.d nexus-iq-server defaults
-  /usr/sbin/service nexus-iq-server start
+  #update-rc.d nexus-iq-server defaults
+  #/usr/sbin/service nexus-iq-server start
+  /bin/systemctl daemon-reload
+  /bin/systemctl enable nexus-iq-server.service
+  /bin/systemctl start nexus-iq-server.service
 fi
 # start the service after upgrading
 if [ $1 = 2 ]; then
-  /sbin/service nexus-iq-server start
+  #/sbin/service nexus-iq-server start
+  /usr/bin/systemctl start nexus-iq-server.service
 elif [ "$1" = "upgrade" ]; then
-  /usr/sbin/service nexus-iq-server start
+  #/usr/sbin/service nexus-iq-server start
+  /bin/systemctl start nexus-iq-server.service
 fi
 
 %preun
 echo preun $1
 if [ $1 = 0 ]; then
-  /sbin/service nexus-iq-server stop
-  /sbin/chkconfig --del nexus-iq-server
+  #/sbin/service nexus-iq-server stop
+  /usr/bin/systemctl stop nexus-iq-server.service
+  #/sbin/chkconfig --del nexus-iq-server
+  /usr/bin/systemctl disable nexus-iq-server.service
 elif [ "$1" = "remove" ]; then
-  /usr/sbin/service nexus-iq-server stop
-  update-rc.d nexus-iq-server remove
+  #/usr/sbin/service nexus-iq-server stop
+  /bin/systemctl stop nexus-iq-server.service
+  #update-rc.d nexus-iq-server remove
+  /bin/systemctl disable nexus-iq-server.service
 fi
 
 %files
 %defattr(-,root,root,-)
 /etc/init.d/nexus-iq-server
+/etc/systemd/system/nexus-iq-server.service
 /opt/sonatype/iqserver
 %dir %config(noreplace) /opt/sonatype/iqserver/extra
 %config(noreplace) /opt/sonatype/iqserver/config.yml
 %config /opt/sonatype/iqserver/demo.bat
 %config /opt/sonatype/iqserver/demo.sh
 %config /opt/sonatype/iqserver/extra/daemon/nexus-iq-server
+%config /opt/sonatype/iqserver/extra/daemon/nexus-iq-server.service
 %defattr(-,iqserver,iqserver)
 /opt/sonatype/sonatype-work/iqserver
 

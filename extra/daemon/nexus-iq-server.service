@@ -1,0 +1,13 @@
+[Unit]
+Description=Nexus IQ Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/etc/init.d/nexus-iq-server start
+ExecStop=/etc/init.d/nexus-iq-server stop
+User=iqserver
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
