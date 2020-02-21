@@ -5,7 +5,7 @@ Package Nexus IQ Server as an RPM and DEB.
 
 (You may also be interested in the [Nexus Repository Manager 3 installer](https://github.com/sonatype-nexus-community/nexus-repository-installer) project.)
 
-[![CircleCI](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer.svg?style=svg)](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer)
+[![CircleCI Build Status](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer) 
 
 Usage
 --------
