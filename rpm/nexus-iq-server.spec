@@ -100,5 +100,7 @@ fi
 %changelog
 * Thu Mar 05 2020 Dan Rollo <drollo@sonatype.com>
 switch to systemd
+* Thu Feb 06 2020 Dan Rollo <drollo@sonatype.com>
+add openjdk dependency
 * Thu Jun 27 2019 Dan Rollo <drollo@sonatype.com>
 initial .spec from prior work of Jason Swank, Rick Briganti, Alvin Gunkel
