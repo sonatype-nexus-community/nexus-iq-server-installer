@@ -44,8 +44,6 @@ perl -p -i -e 's/sonatypeWork: \.\/sonatype-work\/clm-server/sonatypeWork: \/opt
 perl -p -i -e 's/: \.\/log\//: \/opt\/sonatype\/sonatype-work\/iqserver\/log\//g' %{buildroot}/opt/sonatype/iqserver/config.yml
 perl -p -i -e 's/VERSION=replaceMeIQServerVersion/VERSION=%%JAR_VERSION%%/g' %{buildroot}/opt/sonatype/iqserver/extra/daemon/nexus-iq-server
 
-mkdir -p %{buildroot}/etc/init.d
-ln -sf /opt/sonatype/iqserver/extra/daemon/nexus-iq-server %{buildroot}/etc/init.d/nexus-iq-server
 mkdir -p %{buildroot}/etc/systemd/system
 ln -sf /opt/sonatype/iqserver/extra/daemon/%{service_name} %{buildroot}/etc/systemd/system/%{service_name}
 
@@ -88,7 +86,6 @@ fi
 
 %files
 %defattr(-,root,root,-)
-/etc/init.d/nexus-iq-server
 /etc/systemd/system/%{service_name}
 /opt/sonatype/iqserver
 %dir %config(noreplace) /opt/sonatype/iqserver/extra
@@ -101,5 +98,7 @@ fi
 /opt/sonatype/sonatype-work/iqserver
 
 %changelog
+* Thu Mar 05 2020 Dan Rollo <drollo@sonatype.com>
+switch to systemd
 * Thu Jun 27 2019 Dan Rollo <drollo@sonatype.com>
 initial .spec from prior work of Jason Swank, Rick Briganti, Alvin Gunkel

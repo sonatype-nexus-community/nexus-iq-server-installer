@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/etc/init.d/nexus-iq-server start
-ExecStop=/etc/init.d/nexus-iq-server stop
+ExecStart=/opt/sonatype/iqserver/extra/daemon/nexus-iq-server start
+ExecStop=/opt/sonatype/iqserver/extra/daemon/nexus-iq-server stop
 User=iqserver
 Restart=on-abort
 
