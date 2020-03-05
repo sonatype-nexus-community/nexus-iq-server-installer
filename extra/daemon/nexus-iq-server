@@ -17,14 +17,10 @@
 NEXUS_IQ_SERVER_HOME=/opt/sonatype/iqserver
 VERSION=replaceMeIQServerVersion
 JAVA_OPTIONS="-Xmx1024m -XX:MaxPermSize=128m"
-# The user ID which should be used to run the IQ Server
-# # IMPORTANT - Make sure that the user has the required privileges to write into the IQ Server work directory.
-#RUN_AS_USER=iqserver
 
 do_start()
 {
     cd $NEXUS_IQ_SERVER_HOME
-    #su -m $RUN_AS_USER -c "java $JAVA_OPTIONS -jar nexus-iq-server-$VERSION.jar server  config.yml > /dev/null 2>&1 &"
     java $JAVA_OPTIONS -jar nexus-iq-server-$VERSION.jar server config.yml
     echo "Started nexus-iq-server"
 }
