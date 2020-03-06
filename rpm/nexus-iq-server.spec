@@ -61,7 +61,16 @@ getent passwd iqserver >/dev/null || \
 fi
 # stop the service before upgrading
 if [ $1 = 2 ] || [ "$1" = "upgrade" ]; then
-  systemctl stop %{service_name}
+  if [ ! -f /etc/systemd/system/%{service_name} ]; then
+    # use old init script to stop old service
+    if [ $1 = 2 ]; then
+      /sbin/service nexus3 stop
+    elif [ "$1" = "upgrade" ]; then
+      /usr/sbin/service nexus3 stop
+    fi
+  else
+    systemctl stop %{service_name}
+  fi
 fi
 
 %post
