@@ -3,6 +3,7 @@ Version:	%%VERSION%%
 Release:	%%RELEASE%%
 Summary:	Nexus IQ Server
 License:	Proprietary
+Requires:       systemd
 Requires:       java-1.8.0-openjdk-headless
 URL:		https://www.sonatype.com
 Source0:	%%BUNDLE_FILE%%
@@ -13,6 +14,7 @@ BuildArch:	noarch
 #Prefix: /
 
 %define __jar_repack %{nil}
+%define service_name  %{name}.service
 
 %description
 Nexus IQ Server
@@ -42,8 +44,8 @@ perl -p -i -e 's/sonatypeWork: \.\/sonatype-work\/clm-server/sonatypeWork: \/opt
 perl -p -i -e 's/: \.\/log\//: \/opt\/sonatype\/sonatype-work\/iqserver\/log\//g' %{buildroot}/opt/sonatype/iqserver/config.yml
 perl -p -i -e 's/VERSION=replaceMeIQServerVersion/VERSION=%%JAR_VERSION%%/g' %{buildroot}/opt/sonatype/iqserver/extra/daemon/nexus-iq-server
 
-mkdir -p %{buildroot}/etc/init.d
-ln -sf /opt/sonatype/iqserver/extra/daemon/nexus-iq-server %{buildroot}/etc/init.d/nexus-iq-server
+mkdir -p %{buildroot}/etc/systemd/system
+ln -sf /opt/sonatype/iqserver/extra/daemon/%{service_name} %{buildroot}/etc/systemd/system/%{service_name}
 
 %clean
 rm -rf %{buildroot}
@@ -58,51 +60,56 @@ getent passwd iqserver >/dev/null || \
 	useradd -r -g iqserver -d /opt/sonatype/sonatype-work/iqserver -m -c "iqserver role account" -s /bin/bash iqserver
 fi
 # stop the service before upgrading
-if [ $1 = 2 ]; then
-  /sbin/service nexus-iq-server stop
-elif [ "$1" = "upgrade" ]; then
-  /usr/sbin/service nexus-iq-server stop
+if [ $1 = 2 ] || [ "$1" = "upgrade" ]; then
+  if [ ! -f /etc/systemd/system/%{service_name} ]; then
+    # use old init script to stop old service
+    if [ $1 = 2 ]; then
+      /sbin/service nexus3 stop
+    elif [ "$1" = "upgrade" ]; then
+      /usr/sbin/service nexus3 stop
+    fi
+  else
+    systemctl stop %{service_name}
+  fi
 fi
 
 %post
 echo post $1
 # start the service upon first installation
-if [ $1 = 1 ]; then
-  /sbin/chkconfig --add nexus-iq-server
-  /sbin/service nexus-iq-server start
-elif [ "$1" = "configure" ]; then
-  update-rc.d nexus-iq-server defaults
-  /usr/sbin/service nexus-iq-server start
+if [ $1 = 1 ] || [ "$1" = "configure" ]; then
+  systemctl daemon-reload
+  systemctl enable %{service_name}
+  systemctl start %{service_name}
 fi
 # start the service after upgrading
-if [ $1 = 2 ]; then
-  /sbin/service nexus-iq-server start
-elif [ "$1" = "upgrade" ]; then
-  /usr/sbin/service nexus-iq-server start
+if [ $1 = 2 ] || [ "$1" = "upgrade" ]; then
+  systemctl start %{service_name}
 fi
 
 %preun
 echo preun $1
-if [ $1 = 0 ]; then
-  /sbin/service nexus-iq-server stop
-  /sbin/chkconfig --del nexus-iq-server
-elif [ "$1" = "remove" ]; then
-  /usr/sbin/service nexus-iq-server stop
-  update-rc.d nexus-iq-server remove
+if [ $1 = 0 ] || [ "$1" = "remove" ]; then
+  systemctl stop %{service_name}
+  systemctl disable %{service_name}
 fi
 
 %files
 %defattr(-,root,root,-)
-/etc/init.d/nexus-iq-server
+/etc/systemd/system/%{service_name}
 /opt/sonatype/iqserver
 %dir %config(noreplace) /opt/sonatype/iqserver/extra
 %config(noreplace) /opt/sonatype/iqserver/config.yml
 %config /opt/sonatype/iqserver/demo.bat
 %config /opt/sonatype/iqserver/demo.sh
 %config /opt/sonatype/iqserver/extra/daemon/nexus-iq-server
+%config /opt/sonatype/iqserver/extra/daemon/%{service_name}
 %defattr(-,iqserver,iqserver)
 /opt/sonatype/sonatype-work/iqserver
 
 %changelog
+* Thu Mar 05 2020 Dan Rollo <drollo@sonatype.com>
+switch to systemd
+* Thu Feb 06 2020 Dan Rollo <drollo@sonatype.com>
+add openjdk dependency
 * Thu Jun 27 2019 Dan Rollo <drollo@sonatype.com>
 initial .spec from prior work of Jason Swank, Rick Briganti, Alvin Gunkel
