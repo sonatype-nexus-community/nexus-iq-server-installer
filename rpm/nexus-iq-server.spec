@@ -64,9 +64,9 @@ if [ $1 = 2 ] || [ "$1" = "upgrade" ]; then
   if [ ! -f /etc/systemd/system/%{service_name} ]; then
     # use old init script to stop old service
     if [ $1 = 2 ]; then
-      /sbin/service nexus3 stop
+      /sbin/service nexus-iq-server stop
     elif [ "$1" = "upgrade" ]; then
-      /usr/sbin/service nexus3 stop
+      /usr/sbin/service nexus-iq-server stop
     fi
   else
     systemctl stop %{service_name}
