@@ -107,6 +107,8 @@ fi
 /opt/sonatype/sonatype-work/iqserver
 
 %changelog
+* Tue Mar 17 2020 Dan Rollo <drollo@sonatype.com>
+fix init service stop bug during upgrade
 * Thu Mar 05 2020 Dan Rollo <drollo@sonatype.com>
 switch to systemd
 * Thu Feb 06 2020 Dan Rollo <drollo@sonatype.com>
