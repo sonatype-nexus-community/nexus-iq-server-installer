@@ -209,8 +209,14 @@ jobs:
           name: Check published version
           command: |
             # extract latest published release version
-            RAW_HTML=$(wget -qO- https://help.sonatype.com/iqserver/product-information/download-and-compatibility#DownloadandCompatibility-DownloadOurLatestReleases)
-            VERSION_LATEST=$(echo $RAW_HTML | egrep  -o 'nexus-iq-cli-(.*)\.jar"' | sed 's/nexus-iq-cli-//g' | sed 's/.jar"//g')
+            VERSION_LATEST=$(curl -sI https://download.sonatype.com/clm/server/latest.tar.gz -w "%{redirect_url}" | tail -1 | sed 's/.*nexus-iq-server-\(.*\)-bundle.*/\1/')
+
+            if [ "x${VERSION_LATEST}" = "x" ]
+            then
+              echo "Failed to determine latest version.."
+              exit 1
+            fi
+
             echo "VERSION_LATEST: $VERSION_LATEST"
 
             VERSION_BUILT=`cat version-to-build.txt`
