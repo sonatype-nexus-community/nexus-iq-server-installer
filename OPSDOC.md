@@ -1,6 +1,6 @@
 # Nexus IQ Server Installer
 
-The purpose of this repository is to create Deb and Rpm packages of Nexus. 
+The purpose of this repository is to create Deb and Rpm packages of Nexus IQ Server. 
 
 
 
@@ -19,7 +19,7 @@ The purpose of this repository is to create Deb and Rpm packages of Nexus.
 
 ## How?
 
-The jobs are run via CircleCI. Below will be a sample overview of the build process. The trigger to run the job in CircleCI is done via scheduled trigger. This trigger runs and checks the latest version from https://download.sonatype.com. This is run daily on the master branch only.
+The jobs are run via CircleCI. Below will be a sample overview of the build process. The trigger to run the job in CircleCI is done via scheduled trigger. This trigger runs and checks the latest version from download.sonatype.com. This is run daily on the master branch only.
 
 
 
