@@ -8,6 +8,7 @@ ExecStart=/opt/sonatype/iqserver/extra/daemon/nexus-iq-server start
 ExecStop=/opt/sonatype/iqserver/extra/daemon/nexus-iq-server stop
 User=iqserver
 Restart=on-abort
+TimeoutSec=600
 
 [Install]
 WantedBy=multi-user.target

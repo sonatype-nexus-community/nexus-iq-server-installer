@@ -107,6 +107,8 @@ fi
 /opt/sonatype/sonatype-work/iqserver
 
 %changelog
+* Thu Aug 20 2020 Dan Rollo <drollo@sonatype.com>
+increase max memory for jvm to 4gb. add systemd service timeout.
 * Tue Mar 17 2020 Dan Rollo <drollo@sonatype.com>
 fix init service stop bug during upgrade
 * Thu Mar 05 2020 Dan Rollo <drollo@sonatype.com>

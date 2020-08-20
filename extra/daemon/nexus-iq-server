@@ -16,7 +16,7 @@
 
 NEXUS_IQ_SERVER_HOME=/opt/sonatype/iqserver
 VERSION=replaceMeIQServerVersion
-JAVA_OPTIONS="-Xmx1024m -XX:MaxPermSize=128m"
+JAVA_OPTIONS="-Xmx4096m -XX:+UseG1GC"
 
 do_start()
 {
