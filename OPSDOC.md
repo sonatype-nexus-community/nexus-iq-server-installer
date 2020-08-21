@@ -11,9 +11,7 @@ The purpose of this repository is to create Deb and Rpm packages of Nexus IQ Ser
 | Source Code     | https://github.com/sonatype-nexus-community/nexus-iq-server-installer |
 | CI              | https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer |
 | Production Apt  | https://repo.sonatype.com/repository/community-apt-hosted/   |
-| Development Apt | https://nx-staging.sonatype.com/repository/community-apt-hosted/ |
 | Production Yum  | https://repo.sonatype.com/repository/community-yum-hosted/   |
-| Development Yum | https://nx-staging.sonatype.com/repository/community-yum-hosted/ |
 
 
 
@@ -55,10 +53,8 @@ This is essentially the daily trigger.
 
 This runs the same steps as *build* with the addition of deploying the packages to both the development and production repositories as listed above.
 
-1. deploys rpm to staging
-2. deploys deb to staging
-3. deploys rpm to production
-4. deploys deb to production
+1. deploys rpm to production
+2. deploys deb to production
 
 
 
