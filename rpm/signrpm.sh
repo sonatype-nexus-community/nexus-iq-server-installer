@@ -7,13 +7,13 @@ check_errs()
   if [ "${1}" -ne "0" ]; then
     echo "ERROR # ${1} : ${2}"
     # as a bonus, make our script exit with the right error code.
-    exit ${1}
+    exit "${1}"
   fi
 }
 
 echo Sign rpm script running
 
-if [ -z ${SECRING_GPG_ASC_BASE64+x} ]; then
+if [ -z ${SECRING_GPG_ASC_BASE64} ]; then
   echo "SECRING_GPG_ASC_BASE64 is unset, skipping rpm signing";
 else
   echo "SECRING_GPG_ASC_BASE64 var is set, attempting to sign rpm";
@@ -26,7 +26,7 @@ else
   chmod 700 build/rpm-signing-keys/uhome
   check_errs $? "Unable to set gpg dir permissions"
 
-  echo ${SECRING_GPG_ASC_BASE64} | base64 --decode | gpg --batch --no-tty --import --yes
+  echo "${SECRING_GPG_ASC_BASE64}" | base64 --decode | gpg --batch --no-tty --import --yes
   check_errs $? "Unable to create key file"
 
   export RPM_NAME=$1
@@ -40,7 +40,7 @@ else
   #rpm -K build/${RPM_NAME}
   #check_errs $? "Unable to check rpm key"
   # at least make sure output of rpm -K includes "PGP"
-  RPM_KEY_CHECK_RESULT=$(rpm -K build/${RPM_NAME})
+  RPM_KEY_CHECK_RESULT=$(rpm -K "build/${RPM_NAME}")
   echo "RPM_KEY_CHECK_RESULT: ${RPM_KEY_CHECK_RESULT}"
   if [[ ${RPM_KEY_CHECK_RESULT} != *"PGP"* ]];then
     check_errs 1 "RPM not signed with PGP key"
