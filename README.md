@@ -162,7 +162,7 @@ Looking to contribute, but need some help? There's a few ways to get information
      
          1.66.0-01
 
-     Commit and push the updated [version-to-build.txt](version-to-build.txt) file to the `master` branch.
+     Commit and push the updated [version-to-build.txt](version-to-build.txt) file to the `main` branch.
      
   2. After a new build has completed, click the `manual_deploy` workflow.
 
