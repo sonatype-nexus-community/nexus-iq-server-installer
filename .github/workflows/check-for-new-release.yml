@@ -53,6 +53,7 @@ jobs:
             git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
             git tag "build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
             git push && git push --tags
+            # exit with failure so we are notified a new release should be built
             exit 1
           fi
 
