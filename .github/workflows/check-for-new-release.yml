@@ -48,6 +48,7 @@ jobs:
             # write new version to build to disk, commit with trigger tag, and push changes to git
             echo "$VERSION_LATEST" > version-to-build.txt
             # Configure GIT with user info for pushing
+            echo "ghuser: $ACTION_GITHUB_USERNAME"
             git config user.name "$ACTION_GITHUB_USERNAME"
             git config user.email "$ACTION_GITHUB_EMAIL"
             git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
