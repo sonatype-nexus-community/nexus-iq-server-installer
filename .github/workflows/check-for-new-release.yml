@@ -40,7 +40,7 @@ jobs:
 
           VERSION_BUILT=`cat version-to-build.txt`
           echo "VERSION_BUILT: $VERSION_BUILT"
-          if [ "$VERSION_LATEST" = "$VERSION_BUILT"x ]
+          if [ "$VERSION_LATEST" = "$VERSION_BUILT" ]
           then
             echo "No action required, installer $VERSION_BUILT is up to date."
           else
@@ -48,7 +48,6 @@ jobs:
             # write new version to build to disk, commit with trigger tag, and push changes to git
             echo "$VERSION_LATEST" > version-to-build.txt
             # Configure GIT with user info for pushing
-            echo "ghuser: ${{ env.ACTION_GITHUB_USERNAME }}"
             git config user.name ${{ env.ACTION_GITHUB_USERNAME }}
             git config user.email ${{ env.ACTION_GITHUB_EMAIL }}
             git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
@@ -63,6 +62,6 @@ on:
 #    # * is a special character in YAML so you have to quote this string
 #    - cron:  '25 20 * * *'
 env:
-  # Setting an environment variable with the value of a configuration variable
+  # Setting an environment variable with the value of a configuration variable, allows local builds using --env-file
   ACTION_GITHUB_USERNAME: ${{ vars.ACTION_GITHUB_USERNAME }}
   ACTION_GITHUB_EMAIL: ${{ vars.ACTION_GITHUB_EMAIL }}
