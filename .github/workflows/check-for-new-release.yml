@@ -51,16 +51,16 @@ jobs:
             git config user.name ${{ env.ACTION_GITHUB_USERNAME }}
             git config user.email ${{ env.ACTION_GITHUB_EMAIL }}
             git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
-            git tag "TEST_build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
+            git tag "build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
             git push && git push --tags
             exit 1
           fi
 
 on:
-  [workflow_dispatch]
-#  schedule:
-#    # * is a special character in YAML so you have to quote this string
-#    - cron:  '25 20 * * *'
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '25 20 * * *'
+  workflow_dispatch:
 env:
   # Setting an environment variable with the value of a configuration variable, allows local builds using --env-file
   ACTION_GITHUB_USERNAME: ${{ vars.ACTION_GITHUB_USERNAME }}
