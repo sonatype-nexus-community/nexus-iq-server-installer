@@ -26,4 +26,4 @@ Misc
   
    `Build Installer` -> "GitHub Actions" 
 
-  `Build Installer` maps directly to the job with that name in the file: [build.yml](./workflows/build.yml).
+  Note: `Build Installer` maps directly to the job with that name in the file: [build.yml](./workflows/build.yml).
