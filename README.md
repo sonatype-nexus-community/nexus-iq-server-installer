@@ -8,6 +8,8 @@ Package Nexus IQ Server as an RPM and DEB.
 [![CircleCI Build Status](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/sonatype-nexus-community/nexus-iq-server-installer)
 [![build workflow](https://github.com/sonatype-nexus-community/nexus-iq-server-installer/actions/workflows/build.yml/badge.svg)](https://github.com/sonatype-nexus-community/nexus-iq-server-installer/actions/workflows/build.yml)
 
+Most recent installer version: see [version-to-build.txt](./version-to-build.txt)
+
 Usage
 --------
 
