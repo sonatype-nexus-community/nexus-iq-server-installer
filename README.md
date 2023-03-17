@@ -10,7 +10,6 @@ Package Nexus IQ Server as an RPM and DEB.
 
 Usage
 --------
-silly change
 
 Prebuilt binaries of these installers are available from the community 
 [Yum](https://repo.sonatype.com/#browse/browse:community-yum-hosted) and 
