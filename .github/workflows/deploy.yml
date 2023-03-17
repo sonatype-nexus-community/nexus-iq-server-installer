@@ -1,0 +1,50 @@
+#
+# Copyright 2022-Present Sonatype Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# For details of what checks are run for PRs please refer below
+# docs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: Deploy
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+      serverurl:
+        required: true
+        type: string
+      repository-name:
+        required: true
+        type: string
+    secrets:
+      password:
+        required: true
+
+jobs:
+  deploy-rpm:
+    runs-on: ubuntu-latest
+    name: Deploy Installer
+    steps:
+      - name: Deploy .rpm to a Yum repository
+        run: |
+          echo "Running deploy-rpm: ${RPM_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-name }}"
+          curl -v --user ${{ inputs.username }}:${{ secrets.password }} --upload-file build/${RPM_NAME} ${{ inputs.serverurl }}${{ inputs.repository-name }}/
+          res=$?
+          if test "$res" != "0"; then
+            echo "the yum curl command failed with: $res"
+            exit 1
+          fi

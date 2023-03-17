@@ -27,14 +27,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Build RPM and DEB
         run: |
-          if [[ $CIRCLE_SHELL_ENV == *"localbuild"* ]]; then
-            echo "This is a local build. Enabling sudo for docker"
-            echo sudo > ~/sudo
-          else
-            echo "This is not a local build. Disabling sudo for docker"
-            touch ~/sudo
-          fi
-          eval `cat ~/sudo` make docker-all
+          make docker-all
           export RPM_NAME=`make show-rpm-name`
           export DEB_NAME=`make show-deb-name`
           echo RPM_NAME: $RPM_NAME
