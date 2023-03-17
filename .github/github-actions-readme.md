@@ -22,5 +22,8 @@ Misc
 
   Check: `Require branches to be up to date before merging`
 
-  Under "Status checks that are required.", ensure the line: `Build Installer` -> "GitHub Actions" exists.
+  Under "Status checks that are required.", ensure this line exists: 
+  
+   `Build Installer` -> "GitHub Actions" 
+
   `Build Installer` maps directly to the job with that name in the file: [build.yml](./workflows/build.yml).
