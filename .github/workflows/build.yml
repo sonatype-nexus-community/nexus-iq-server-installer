@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         # see https://github.com/actions/checkout
         uses: actions/checkout@v3
-      - name: Check published version
+      - name: Build RPM and DEB
         run: |
           if [[ $CIRCLE_SHELL_ENV == *"localbuild"* ]]; then
             echo "This is a local build. Enabling sudo for docker"
