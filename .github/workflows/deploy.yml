@@ -37,7 +37,7 @@ on:
 jobs:
   deploy-rpm:
     runs-on: ubuntu-latest
-    name: Deploy Installer
+    name: Deploy Redhat Installer
     steps:
       - name: Deploy .rpm to a Yum repository
         run: |
@@ -47,4 +47,18 @@ jobs:
           if test "$res" != "0"; then
             echo "the yum curl command failed with: $res"
             exit 1
+          fi
+
+  deploy-deb:
+    runs-on: ubuntu-latest
+    name: Deploy Debian Installer
+    steps:
+      - name: Deploy .deb to an Apt repository
+        run: |
+          echo "Running deploy-deb: ${DEB_NAME} to: << parameters.serverurl >><< parameters.repository-name >>"
+          curl -v --user << parameters.username >>:<< parameters.password >> -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" << parameters.serverurl >><< parameters.repository-name >>/
+          res=$?
+          if test "$res" != "0"; then
+            echo "the apt curl command failed with: $res"
+            exit 2
           fi
