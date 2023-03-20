@@ -41,5 +41,5 @@ jobs:
 on:
   workflow_dispatch:
   push:
-    branches: [ $default-branch ]
+    branches: [ main ]
   pull_request:
