@@ -152,45 +152,45 @@ jobs:
       - deploy-rpm-production
       - deploy-deb-production
 
-#  read_published_release_version:
-#    executor: jdk
-#    parameters:
-#      ssh-fingerprints:
-#        type: string
-#    steps:
-#      - add_ssh_keys:
-#          fingerprints:
-#            - <<parameters.ssh-fingerprints>>
-#      - checkout
-#      - configure-git
-#      - run:
-#          name: Check published version
-#          command: |
-#            # extract latest published release version
-#            VERSION_LATEST=$(curl -sI https://download.sonatype.com/clm/server/latest.tar.gz -w "%{redirect_url}" | tail -1 | sed 's/.*nexus-iq-server-\(.*\)-bundle.*/\1/')
-#
-#            if [ "x${VERSION_LATEST}" = "x" ]
-#            then
-#              echo "Failed to determine latest version.."
-#              exit 1
-#            fi
-#
-#            echo "VERSION_LATEST: $VERSION_LATEST"
-#
-#            VERSION_BUILT=`cat version-to-build.txt`
-#            echo "VERSION_BUILT: $VERSION_BUILT"
-#            if [ "$VERSION_LATEST" = "$VERSION_BUILT" ]
-#            then
-#              echo "No action required, installer $VERSION_BUILT is up to date."
-#            else
-#              echo "Stale version detected: $VERSION_BUILT. New Nexus Installer ($VERSION_LATEST) needs to be built and published."
-#              # write new version to build to disk, commit with trigger tag, and push changes to git
-#              echo "$VERSION_LATEST" > version-to-build.txt
-#              git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
-#              git tag "build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
-#              git push && git push --tags
-#              exit 1
-#            fi
+  read_published_release_version:
+    executor: jdk
+    parameters:
+      ssh-fingerprints:
+        type: string
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - <<parameters.ssh-fingerprints>>
+      - checkout
+      - configure-git
+      - run:
+          name: Check published version
+          command: |
+            # extract latest published release version
+            VERSION_LATEST=$(curl -sI https://download.sonatype.com/clm/server/latest.tar.gz -w "%{redirect_url}" | tail -1 | sed 's/.*nexus-iq-server-\(.*\)-bundle.*/\1/')
+
+            if [ "x${VERSION_LATEST}" = "x" ]
+            then
+              echo "Failed to determine latest version.."
+              exit 1
+            fi
+
+            echo "VERSION_LATEST: $VERSION_LATEST"
+
+            VERSION_BUILT=`cat version-to-build.txt`
+            echo "VERSION_BUILT: $VERSION_BUILT"
+            if [ "$VERSION_LATEST" = "$VERSION_BUILT" ]
+            then
+              echo "No action required, installer $VERSION_BUILT is up to date."
+            else
+              echo "Stale version detected: $VERSION_BUILT. New Nexus Installer ($VERSION_LATEST) needs to be built and published."
+              # write new version to build to disk, commit with trigger tag, and push changes to git
+              echo "$VERSION_LATEST" > version-to-build.txt
+              git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
+              git tag "build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
+              git push && git push --tags
+              exit 1
+            fi
 
 workflows:
   manual_deploy:
@@ -213,18 +213,18 @@ workflows:
               only:
                 - main
 
-#  check_for_new_release:
-#    triggers:
-#      - schedule:
-#          cron: "25 20 * * *"
-#          filters:
-#            branches:
-#              only:
-#                - main
-#    jobs:
-#      - read_published_release_version:
-#          ssh-fingerprints: "e5:5e:0b:2a:20:6c:68:d0:a2:2e:85:01:bd:bb:43:c9"
-#          context: installer-read-published-release-version
+  check_for_new_release:
+    triggers:
+      - schedule:
+          cron: "25 20 * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - read_published_release_version:
+          ssh-fingerprints: "e5:5e:0b:2a:20:6c:68:d0:a2:2e:85:01:bd:bb:43:c9"
+          context: installer-read-published-release-version
 
   build_new_release_on_tag:
     jobs:
