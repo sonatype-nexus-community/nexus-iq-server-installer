@@ -36,7 +36,7 @@ jobs:
           #echo export RPM_NAME="${RPM_NAME}" >> "$BASH_ENV"
           echo "RPM_NAME=$(echo $RPM_NAME)" >> $GITHUB_ENV
           #echo export DEB_NAME="${DEB_NAME}" >> "$BASH_ENV"
-          echo "DEB_NAME=$(echo DEB_NAME)" >> $GITHUB_ENV
+          echo "DEB_NAME=$(echo $DEB_NAME)" >> $GITHUB_ENV
 
 on:
   workflow_dispatch:
