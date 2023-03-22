@@ -37,6 +37,16 @@ jobs:
           echo "RPM_NAME=$(echo $RPM_NAME)" >> $GITHUB_ENV
           #echo export DEB_NAME="${DEB_NAME}" >> "$BASH_ENV"
           echo "DEB_NAME=$(echo $DEB_NAME)" >> $GITHUB_ENV
+      - name: Upload installer RPM
+        uses: actions/upload-artifact@v3
+        with:
+          name: rpmFile
+          path: build/${{ env.RPM_NAME }}
+      - name: Upload installer DEB
+        uses: actions/upload-artifact@v3
+        with:
+          name: debFile
+          path: build/${{ env.DEB_NAME }}
 
 on:
   workflow_dispatch:
