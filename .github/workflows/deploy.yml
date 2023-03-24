@@ -56,8 +56,8 @@ jobs:
     steps:
       - name: Deploy .deb to an Apt repository
         run: |
-          echo "Running deploy-deb: ${DEB_NAME} to: << parameters.serverurl >><< parameters.repository-name >>"
-          curl -v --user << parameters.username >>:<< parameters.password >> -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" << parameters.serverurl >><< parameters.repository-name >>/
+          echo "Running deploy-deb: ${DEB_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-name }}"
+          curl -v --user ${{ inputs.username }}:${{ secrets.password }} -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" ${{ inputs.serverurl }}${{ inputs.repository-name }}/
           res=$?
           if test "$res" != "0"; then
             echo "the apt curl command failed with: $res"
