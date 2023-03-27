@@ -32,11 +32,14 @@ jobs:
           export DEB_NAME=`make show-deb-name`
           echo RPM_NAME: $RPM_NAME
           echo DEB_NAME: $DEB_NAME
-          # store names in env vars for later steps to use
-          #echo export RPM_NAME="${RPM_NAME}" >> "$BASH_ENV"
-          echo "RPM_NAME=$(echo $RPM_NAME)" >> $GITHUB_ENV
-          #echo export DEB_NAME="${DEB_NAME}" >> "$BASH_ENV"
-          echo "DEB_NAME=$(echo $DEB_NAME)" >> $GITHUB_ENV
+          # store names for later steps to use
+          echo "RPM_NAME=$(echo $RPM_NAME)" >> build/installer-vars.env
+          echo "DEB_NAME=$(echo $DEB_NAME)" >> build/installer-vars.env
+      - name: Upload installer env vars
+        uses: actions/upload-artifact@v3
+        with:
+          name: installer-vars
+          path: build/installer-vars.env
       - name: Upload installer RPM
         uses: actions/upload-artifact@v3
         with:
