@@ -39,6 +39,25 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy Redhat Installer
     steps:
+      - name: Download rpmFile
+        uses: actions/download-artifact@v3
+        with:
+          name: rpmFile
+          path: build/
+      - name: Download debFile
+        uses: actions/download-artifact@v3
+        with:
+          name: debFile
+          path: build/
+      - name: Download env vars
+        uses: actions/download-artifact@v3
+        with:
+          name: installer-vars
+          path: build/
+      - name: Set Environment Variables
+        uses: tw3lveparsecs/github-actions-setvars@latest
+        with:
+          envFilePath: build/installer-vars.env
       - name: Deploy .rpm to a Yum repository
         run: |
           echo "Running deploy-rpm: ${RPM_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-name }}"
