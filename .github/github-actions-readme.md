@@ -8,11 +8,19 @@ Tracking the things I did to use and locally run CI builds with GitHub Actions.
   * The command below will look in `.github/workflows` for a `.yml` file containing a `job` with id: `build`, and run that job:
 
         act -j build
+  
+    Some more commands:
+  
+        act -j build-new-release --artifact-server-path /tmp/artifacts
 
+    Use locally configured vars/secrets:
+
+        act -j deploy-new-release --artifact-server-path /tmp/artifacts --env-file .github/dan.env --secret-file .github/dan-secret.env
+  
 Misc
 ----
 
-* Setup Branch Protections
+* Setup Branch Protections (*NOPE* - Branch Protections break ability to push during a job)
   
   see Settings -> Branches -> Branch protection rules -> `main` ->
   
