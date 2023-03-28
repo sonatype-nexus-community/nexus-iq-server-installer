@@ -21,21 +21,31 @@ on:
   workflow_dispatch:
   workflow_call:
     inputs:
-      username:
-        required: true
-        type: string
       serverurl:
         required: true
         type: string
-      repository-name:
+      repository-yum:
+        required: true
+        type: string
+      repository-apt:
         required: true
         type: string
     secrets:
-      password:
+      username-yum:
         required: true
+        type: string
+      password-yum:
+        required: true
+        type: string
+      username-apt:
+        required: true
+        type: string
+      password-apt:
+        required: true
+        type: string
 
 jobs:
-  deploy-rpm:
+  deploy-installers:
     runs-on: ubuntu-latest
     name: Deploy Redhat Installer
     steps:
@@ -60,23 +70,17 @@ jobs:
           envFilePath: build/installer-vars.env
       - name: Deploy .rpm to a Yum repository
         run: |
-          echo "Running deploy-rpm: ${RPM_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-name }}"
-          curl -v --user ${{ inputs.username }}:${{ secrets.password }} --upload-file build/${RPM_NAME} ${{ inputs.serverurl }}${{ inputs.repository-name }}/
+          echo "Running deploy-rpm: ${RPM_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-yum }}"
+          curl -v --user ${{ secrets.username-yum }}:${{ secrets.password-yum }} --upload-file build/${RPM_NAME} ${{ inputs.serverurl }}${{ inputs.repository-yum }}/
           res=$?
           if test "$res" != "0"; then
             echo "the yum curl command failed with: $res"
             exit 1
           fi
-
-  deploy-deb:
-    runs-on: ubuntu-latest
-    needs: deploy-rpm
-    name: Deploy Debian Installer
-    steps:
       - name: Deploy .deb to an Apt repository
         run: |
-          echo "Running deploy-deb: ${DEB_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-name }}"
-          curl -v --user ${{ inputs.username }}:${{ secrets.password }} -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" ${{ inputs.serverurl }}${{ inputs.repository-name }}/
+          echo "Running deploy-deb: ${DEB_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-apt }}"
+          curl -v --user ${{ secrets.username-apt }}:${{ secrets.password-apt }} -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" ${{ inputs.serverurl }}${{ inputs.repository-apt }}/
           res=$?
           if test "$res" != "0"; then
             echo "the apt curl command failed with: $res"
