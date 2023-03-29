@@ -36,16 +36,12 @@ on:
     secrets:
       username-yum:
         required: true
-        type: string
       password-yum:
         required: true
-        type: string
       username-apt:
         required: true
-        type: string
       password-apt:
         required: true
-        type: string
 
 env:
   # Setting an environment variable with the value of a configuration variable, allows local builds using --env-file
