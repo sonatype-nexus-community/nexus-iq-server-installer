@@ -47,6 +47,12 @@ on:
         required: true
         type: string
 
+env:
+  # Setting an environment variable with the value of a configuration variable, allows local builds using --env-file
+  NEXUS_RM_SERVERURL_PRODUCTION: ${{ vars.NEXUS_RM_SERVERURL_PRODUCTION }}
+  REPOSITORY_NAME_YUM_PRODUCTION: ${{ vars.REPOSITORY_NAME_YUM_PRODUCTION }}
+  REPOSITORY_NAME_APT_PRODUCTION: ${{ vars.REPOSITORY_NAME_APT_PRODUCTION }}
+
 jobs:
   deploy-installers:
     runs-on: ubuntu-latest
