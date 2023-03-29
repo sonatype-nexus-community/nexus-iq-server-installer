@@ -24,15 +24,15 @@ on:
       serverurl:
         required: true
         type: string
-        default: ${{ env.NEXUS_RM_SERVERURL_PRODUCTION }}
+        default: $NEXUS_RM_SERVERURL_PRODUCTION
       repository-yum:
         required: true
         type: string
-        default: ${{ env.REPOSITORY_NAME_YUM_PRODUCTION }}
+        default: $REPOSITORY_NAME_YUM_PRODUCTION
       repository-apt:
         required: true
         type: string
-        default: ${{ env.REPOSITORY_NAME_APT_PRODUCTION }}
+        default: $REPOSITORY_NAME_APT_PRODUCTION
     secrets:
       username-yum:
         required: true
