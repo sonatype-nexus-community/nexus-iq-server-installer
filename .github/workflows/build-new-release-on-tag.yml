@@ -23,10 +23,6 @@ jobs:
   deploy-new-release:
     needs: build-new-release
     uses: ./.github/workflows/deploy.yml
-    with:
-      serverurl: "${{ env.NEXUS_RM_SERVERURL_PRODUCTION }}"
-      repository-yum: ${{ env.REPOSITORY_NAME_YUM_PRODUCTION }}
-      repository-apt: ${{ env.REPOSITORY_NAME_APT_PRODUCTION }}
     secrets:
       username-yum: ${{ secrets.NEXUS_RM_USERNAME_YUM_PRODUCTION }}
       password-yum: ${{ secrets.NEXUS_RM_PASSWORD_YUM_PRODUCTION }}
