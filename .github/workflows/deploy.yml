@@ -17,20 +17,23 @@
 # docs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 name: Deploy
 
+env:
+  # Setting an environment variable with the value of a configuration variable, allows local builds using --env-file
+  NEXUS_RM_SERVERURL_PRODUCTION: ${{ vars.NEXUS_RM_SERVERURL_PRODUCTION }}
+  REPOSITORY_NAME_YUM_PRODUCTION: ${{ vars.REPOSITORY_NAME_YUM_PRODUCTION }}
+  REPOSITORY_NAME_APT_PRODUCTION: ${{ vars.REPOSITORY_NAME_APT_PRODUCTION }}
+
 on:
   workflow_dispatch:
   workflow_call:
     inputs:
       serverurl:
-        required: true
         type: string
         default: $NEXUS_RM_SERVERURL_PRODUCTION
       repository-yum:
-        required: true
         type: string
         default: $REPOSITORY_NAME_YUM_PRODUCTION
       repository-apt:
-        required: true
         type: string
         default: $REPOSITORY_NAME_APT_PRODUCTION
     secrets:
@@ -42,12 +45,6 @@ on:
         required: true
       password-apt:
         required: true
-
-env:
-  # Setting an environment variable with the value of a configuration variable, allows local builds using --env-file
-  NEXUS_RM_SERVERURL_PRODUCTION: ${{ vars.NEXUS_RM_SERVERURL_PRODUCTION }}
-  REPOSITORY_NAME_YUM_PRODUCTION: ${{ vars.REPOSITORY_NAME_YUM_PRODUCTION }}
-  REPOSITORY_NAME_APT_PRODUCTION: ${{ vars.REPOSITORY_NAME_APT_PRODUCTION }}
 
 jobs:
   deploy-installers:
