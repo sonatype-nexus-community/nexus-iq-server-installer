@@ -19,6 +19,7 @@ name: Build New Release on Tag
 
 jobs:
   build-new-release:
+    if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build.yml
   deploy-new-release:
     needs: build-new-release
@@ -32,6 +33,5 @@ jobs:
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
     tags:
       - 'build_new_version_*'
