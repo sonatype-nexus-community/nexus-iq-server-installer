@@ -34,4 +34,4 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'build_new_version_*'
+      - build_new_version_*
