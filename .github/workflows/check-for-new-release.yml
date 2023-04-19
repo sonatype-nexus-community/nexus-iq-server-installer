@@ -45,14 +45,14 @@ jobs:
             echo "No action required, installer $VERSION_BUILT is up to date."
           else
             echo "Stale version detected: $VERSION_BUILT. New Installer ($VERSION_LATEST) needs to be built and published."
-#            # write new version to build to disk, commit with trigger tag, and push changes to git
-#            echo "$VERSION_LATEST" > version-to-build.txt
-#            # Configure GIT with user info for pushing
-#            git config user.name ${{ env.ACTION_GITHUB_USERNAME }}
-#            git config user.email ${{ env.ACTION_GITHUB_EMAIL }}
-#            git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
-#            git tag "build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
-#            git push && git push --tags
+            # write new version to build to disk, commit with trigger tag, and push changes to git
+            #echo "$VERSION_LATEST" > version-to-build.txt
+            # Configure GIT with user info for pushing
+            #git config user.name ${{ env.ACTION_GITHUB_USERNAME }}
+            #git config user.email ${{ env.ACTION_GITHUB_EMAIL }}
+            #git commit version-to-build.txt -m "[skip ci] Automated update to build new version: $VERSION_LATEST"
+            #git tag "build_new_version_$VERSION_LATEST" -m "Tag to trigger automated build of new version: $VERSION_LATEST"
+            #git push && git push --tags
             # exit with failure so we are notified a new release should be built
             exit 1
           fi
