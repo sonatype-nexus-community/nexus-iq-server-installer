@@ -109,6 +109,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build RPM and DEB
+          no_output_timeout: 30m
           command: |
             if [[ $CIRCLE_SHELL_ENV == *"localbuild"* ]]; then
               echo "This is a local build. Enabling sudo for docker"
