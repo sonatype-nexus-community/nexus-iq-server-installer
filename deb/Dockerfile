@@ -22,7 +22,8 @@
  #
  #Too long with no output (exceeded 10m0s): context deadline exceeded
 #FROM debian:stable
-FROM debian:oldstable
+#FROM debian:oldstable
+FROM debian:buster
 #FROM ubuntu:latest
 #RUN apt-get clean && apt-get update && apt list alien && exit 101
 RUN apt-get update && apt-get install -y alien
