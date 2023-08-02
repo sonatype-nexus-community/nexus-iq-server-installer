@@ -73,7 +73,7 @@ jobs:
       - name: Deploy .rpm to a Yum repository
         run: |
           echo "Running deploy-rpm: ${RPM_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-yum }}"
-          curl -v --user ${{ secrets.username-yum }}:${{ secrets.password-yum }} --upload-file build/${RPM_NAME} ${{ inputs.serverurl }}${{ inputs.repository-yum }}/
+          curl --user ${{ secrets.username-yum }}:${{ secrets.password-yum }} --upload-file build/${RPM_NAME} ${{ inputs.serverurl }}${{ inputs.repository-yum }}/
           res=$?
           if test "$res" != "0"; then
             echo "the yum curl command failed with: $res"
@@ -82,7 +82,7 @@ jobs:
       - name: Deploy .deb to an Apt repository
         run: |
           echo "Running deploy-deb: ${DEB_NAME} to: ${{ inputs.serverurl }}${{ inputs.repository-apt }}"
-          curl -v --user ${{ secrets.username-apt }}:${{ secrets.password-apt }} -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" ${{ inputs.serverurl }}${{ inputs.repository-apt }}/
+          curl --user ${{ secrets.username-apt }}:${{ secrets.password-apt }} -H "Content-Type: multipart/form-data" --data-binary "@build/${DEB_NAME}" ${{ inputs.serverurl }}${{ inputs.repository-apt }}/
           res=$?
           if test "$res" != "0"; then
             echo "the apt curl command failed with: $res"
