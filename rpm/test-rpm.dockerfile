@@ -1,6 +1,6 @@
 FROM centos:7
 
-RUN yum install -y java-1.8.0-openjdk-headless
+RUN yum install -y java-17-openjdk-headless
 COPY . /data
 VOLUME /data
 WORKDIR /data

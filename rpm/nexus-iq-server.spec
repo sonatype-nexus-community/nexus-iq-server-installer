@@ -4,7 +4,7 @@ Release:	%%RELEASE%%
 Summary:	Nexus IQ Server
 License:	Proprietary
 Requires:       systemd
-Requires:       java-1.8.0-openjdk-headless
+Requires:       java-17-openjdk-headless
 URL:		https://www.sonatype.com
 Source0:	%%BUNDLE_FILE%%
 Source1:        %{name}-%{version}-rpm.tar.gz
@@ -107,6 +107,8 @@ fi
 /opt/sonatype/sonatype-work/iqserver
 
 %changelog
+* Thu Aug 08 2024 Dan Rollo <drollo@sonatype.com>
+require jdk 17.
 * Thu Aug 20 2020 Dan Rollo <drollo@sonatype.com>
 increase max memory for jvm to 4gb. add systemd service timeout.
 * Tue Mar 17 2020 Dan Rollo <drollo@sonatype.com>
