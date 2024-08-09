@@ -52,17 +52,17 @@ jobs:
     name: Deploy Redhat Installer
     steps:
       - name: Download rpmFile
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rpmFile
           path: build/
       - name: Download debFile
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: debFile
           path: build/
       - name: Download env vars
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: installer-vars
           path: build/
